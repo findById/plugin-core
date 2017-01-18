@@ -4,10 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.jar.Attributes;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
@@ -16,18 +13,6 @@ import java.util.jar.Manifest;
  * Created by chenning on 2016/12/29.
  */
 public class PluginManager {
-
-    private static PluginManager instance;
-
-    public static PluginManager newInstance() {
-        if (instance == null) {
-            instance = new PluginManager();
-        }
-        return instance;
-    }
-
-    public PluginManager() {
-    }
 
     private Map<String, PluginInfo> map = new HashMap<>();
 
@@ -43,6 +28,23 @@ public class PluginManager {
             return info.id;
         }
         return null;
+    }
+
+    public String install(String pluginId, Plugin plugin) {
+        if (pluginId == null || plugin == null) {
+            return null;
+        }
+        plugin.onCreate();
+        PluginInfo info = new PluginInfo();
+        info.id = pluginId;
+        info.plugins.add(plugin);
+        map.put(pluginId, info);
+        return pluginId;
+    }
+
+    public String install(Plugin plugin) {
+        String pluginId = UUID.randomUUID().toString();
+        return install(pluginId, plugin);
     }
 
     public boolean uninstall(String id) {
