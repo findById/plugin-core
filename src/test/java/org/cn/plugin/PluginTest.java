@@ -9,7 +9,7 @@ public class PluginTest {
 
     @Test
     public void test() throws Exception {
-        PluginManager manager = PluginManager.newInstance();
+        PluginManager manager = new PluginManager();
         String pluginId = manager.install("test-classes.jar");
         manager.invoke(pluginId, "hello", "world");
         manager.uninstall(pluginId);
