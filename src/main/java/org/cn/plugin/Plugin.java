@@ -10,6 +10,9 @@ public interface Plugin {
     default void onDestroy() {
     }
 
+    default void onProfile(Profile profile) {
+    }
+
     default PluginStatus status() {
         return PluginStatus.RUNNING;
     }
